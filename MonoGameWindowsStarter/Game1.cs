@@ -11,7 +11,7 @@ namespace MonoGameWindowsStarter
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        Texture2D grass;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -39,7 +39,8 @@ namespace MonoGameWindowsStarter
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            grass = Content.Load<Texture2D>("grass");
+            
             // TODO: use this.Content to load your game content here
         }
 
@@ -76,6 +77,10 @@ namespace MonoGameWindowsStarter
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+
+
+
 
             base.Draw(gameTime);
         }
