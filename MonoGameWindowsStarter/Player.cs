@@ -183,7 +183,7 @@ namespace MonoGameWindowsStarter
         /// <param name="spriteBatch">The SpriteBatch to use</param>
         public void Draw(SpriteBatch spriteBatch)
         {
-            frames[currentFrame].Draw(spriteBatch, Position, color, 0, origin, 2, spriteEffects, 1);
+            frames[currentFrame].Draw(spriteBatch, Position, color, 0, origin, 1, spriteEffects, 1);
         }
     }
 }
