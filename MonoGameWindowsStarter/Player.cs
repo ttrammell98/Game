@@ -39,12 +39,12 @@ namespace MonoGameWindowsStarter
         /// <summary>
         /// The width of the animation frames
         /// </summary>
-        const int FRAME_WIDTH = 49;
+        public int FRAME_WIDTH = 49;
 
         /// <summary>
         /// The hieght of the animation frames
         /// </summary>
-        const int FRAME_HEIGHT = 64;
+        public int FRAME_HEIGHT = 64;
 
         // Private variables
         Game1 game;
@@ -52,7 +52,7 @@ namespace MonoGameWindowsStarter
         State state;
         TimeSpan timer;
         int frame;
-        Vector2 position;
+        public Vector2 position;
 
         /// <summary>
         /// Creates a new player object

@@ -37,7 +37,7 @@ namespace MonoGameWindowsStarter
             block2 = new Block(this, 550, 300);
             cake = new Cake(this, 2);
             cookie = new Cookie(this, 1);
-            carrot = new Carrot(this, -1);
+            carrot = new Carrot(this, -5);
         }
 
         /// <summary>
@@ -133,6 +133,24 @@ namespace MonoGameWindowsStarter
             cookie.Update(gameTime);
             carrot.Update(gameTime);
 
+            if((cake.Bounds.X < player.position.X + player.FRAME_WIDTH) && (player.position.X < (cake.Bounds.X + cake.Bounds.Width)) && (cake.Bounds.Y < player.position.Y + player.FRAME_HEIGHT) && (player.position.Y < cake.Bounds.Y + cake.Bounds.Height))
+            {
+                score += cake.pointVal;
+                cake.Bounds.Y = 0;
+                cake.Bounds.X = RandomizeCake();
+            }
+            if ((cookie.Bounds.X < player.position.X + player.FRAME_WIDTH) && (player.position.X < (cookie.Bounds.X + cookie.Bounds.Width)) && (cookie.Bounds.Y < player.position.Y + player.FRAME_HEIGHT) && (player.position.Y < cookie.Bounds.Y + cookie.Bounds.Height))
+            {
+                score += cookie.pointVal;
+                cookie.Bounds.Y = 0;
+                cookie.Bounds.X = RandomizeCookie();
+            }
+            if ((carrot.Bounds.X < player.position.X + player.FRAME_WIDTH) && (player.position.X < (carrot.Bounds.X + carrot.Bounds.Width)) && (carrot.Bounds.Y < player.position.Y + player.FRAME_HEIGHT) && (player.position.Y < carrot.Bounds.Y + carrot.Bounds.Height))
+            {
+                score += carrot.pointVal;
+                carrot.Bounds.Y = 0;
+                carrot.Bounds.X = RandomizeCarrot();
+            }
 
             // player.Update(gameTime);
             // TODO: Add your update logic here
