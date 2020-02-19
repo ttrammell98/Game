@@ -125,11 +125,11 @@ namespace MonoGameWindowsStarter
 
             if(position.X < 0)
             {
-                position.X = 0;
+                position.X = game.GetWidth() - FRAME_WIDTH;
             }
             if(position.X + FRAME_WIDTH > game.GetWidth())
             {
-                position.X = game.GetWidth() - FRAME_WIDTH;
+                position.X = 0;
             }
         }
 
@@ -149,6 +149,45 @@ namespace MonoGameWindowsStarter
 
             // render the sprite
             spriteBatch.Draw(texture, position, source, Color.White);
+
+        }
+
+        public bool collidesWithCake(Cake cake)
+        {
+            if ((cake.Bounds.X < position.X + FRAME_WIDTH) && (position.X < (cake.Bounds.X + cake.Bounds.Width)) && (cake.Bounds.Y < position.Y + FRAME_HEIGHT) && (position.Y < cake.Bounds.Y + cake.Bounds.Height))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public bool collidesWithCookie(Cookie cookie)
+        {
+            if ((cookie.Bounds.X < position.X + FRAME_WIDTH) && (position.X < (cookie.Bounds.X + cookie.Bounds.Width)) && (cookie.Bounds.Y < position.Y + FRAME_HEIGHT) && (position.Y < cookie.Bounds.Y + cookie.Bounds.Height))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public bool collidesWithCarrot(Carrot carrot)
+        {
+            if ((carrot.Bounds.X < position.X + FRAME_WIDTH) && (position.X < (carrot.Bounds.X + carrot.Bounds.Width)) && (carrot.Bounds.Y < position.Y + FRAME_HEIGHT) && (position.Y < carrot.Bounds.Y + carrot.Bounds.Height))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
 
         }
 

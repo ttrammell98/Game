@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Bite.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Bite.wav
+
 #begin block.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -49,18 +55,6 @@
 /processorParam:TextureFormat=Color
 /build:carrot.png
 
-#begin carrot.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:carrot.png
-
 #begin Cookie.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -72,6 +66,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Cookie.png
+
+#begin Cough.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Cough.wav
 
 #begin grass.png
 /importer:TextureImporter

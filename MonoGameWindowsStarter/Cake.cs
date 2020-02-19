@@ -19,14 +19,17 @@ namespace MonoGameWindowsStarter
 
         Random random;
 
+        public SoundEffect eating;
+
         public BoundingRectangle Bounds;
 
         public int pointVal; //2
 
-        public Cake(Game1 game, int pv)
+        public Cake(Game1 game, int pv, Random r)
         {
             this.game = game;
             pointVal = pv;
+            random = r;
         }
 
         public void Initialize()
@@ -40,6 +43,7 @@ namespace MonoGameWindowsStarter
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("Cake");
+            eating = content.Load<SoundEffect>("Bite");
         }
 
         public void Update(GameTime gameTime)
@@ -49,7 +53,7 @@ namespace MonoGameWindowsStarter
             if (Bounds.Y > (game.GetHeight() - (int)Bounds.Height))
             {
                 Bounds.Y = 0;
-                Bounds.X = RandomizeX() + 80;
+                Bounds.X = RandomizeX();
                 if (Bounds.X + Bounds.Width > game.GetWidth())
                 {
                     Bounds.X = game.GetWidth() - Bounds.Width;
@@ -68,7 +72,6 @@ namespace MonoGameWindowsStarter
 
         public int RandomizeX()
         {
-            random = new Random();
             int temp;
             temp = random.Next(0, game.GetWidth() - (int)Bounds.Width);
             return temp;

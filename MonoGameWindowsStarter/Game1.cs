@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -22,7 +23,6 @@ namespace MonoGameWindowsStarter
         SpriteFont font;
         Block block1;
         Block block2;
-        SpriteSheet sheet;
         Player player;
         Cake cake;
         Cookie cookie;
@@ -35,9 +35,9 @@ namespace MonoGameWindowsStarter
             player = new Player(this);
             block1 = new Block(this, 0, 300);
             block2 = new Block(this, 550, 300);
-            cake = new Cake(this, 2);
-            cookie = new Cookie(this, 1);
-            carrot = new Carrot(this, -5);
+            cake = new Cake(this, 2, random);
+            cookie = new Cookie(this, 1, random);
+            carrot = new Carrot(this, -5, random);
         }
 
         /// <summary>
@@ -64,13 +64,10 @@ namespace MonoGameWindowsStarter
             cake.Initialize();
             cookie.Initialize();
             carrot.Initialize();
-            //if((cookie.Bounds.X < cake.Bounds.X + cake.Bounds.Width) && (cake.Bounds.X < (cookie.Bounds.X + cookie.Bounds.Width)) && (cookie.Bounds.Y < cake.Bounds.Y + cake.Bounds.Height) && (cake.Bounds.Y < cookie.Bounds.Y + cookie.Bounds.Height))
-            //{
-            //    cookie.Bounds.X += 150;
-            //}
-            cake.Bounds.X = RandomizeCake();
-            cookie.Bounds.X = RandomizeCookie();
-            carrot.Bounds.X = RandomizeCarrot();
+
+            cake.Bounds.X = RandomizeItem();
+            cookie.Bounds.X = RandomizeItem();
+            carrot.Bounds.X = RandomizeItem();
 
             base.Initialize();
         }
@@ -87,8 +84,6 @@ namespace MonoGameWindowsStarter
             font = Content.Load<SpriteFont>("score");
             block1.LoadContent(Content);
             block2.LoadContent(Content);
-            //var tex = Content.Load<Texture2D>("spritesheet");
-            //sheet = new SpriteSheet(tex, 49, 64, 0, 0); //good for top row
             player.LoadContent();
 
 
@@ -133,27 +128,27 @@ namespace MonoGameWindowsStarter
             cookie.Update(gameTime);
             carrot.Update(gameTime);
 
-            if((cake.Bounds.X < player.position.X + player.FRAME_WIDTH) && (player.position.X < (cake.Bounds.X + cake.Bounds.Width)) && (cake.Bounds.Y < player.position.Y + player.FRAME_HEIGHT) && (player.position.Y < cake.Bounds.Y + cake.Bounds.Height))
+            if (player.collidesWithCake(cake))
             {
+                cake.eating.Play();
                 score += cake.pointVal;
                 cake.Bounds.Y = 0;
-                cake.Bounds.X = RandomizeCake();
+                cake.Bounds.X = RandomizeItem();
             }
-            if ((cookie.Bounds.X < player.position.X + player.FRAME_WIDTH) && (player.position.X < (cookie.Bounds.X + cookie.Bounds.Width)) && (cookie.Bounds.Y < player.position.Y + player.FRAME_HEIGHT) && (player.position.Y < cookie.Bounds.Y + cookie.Bounds.Height))
+            if (player.collidesWithCookie(cookie))
             {
+                cookie.eating.Play();
                 score += cookie.pointVal;
                 cookie.Bounds.Y = 0;
-                cookie.Bounds.X = RandomizeCookie();
+                cookie.Bounds.X = RandomizeItem();
             }
-            if ((carrot.Bounds.X < player.position.X + player.FRAME_WIDTH) && (player.position.X < (carrot.Bounds.X + carrot.Bounds.Width)) && (carrot.Bounds.Y < player.position.Y + player.FRAME_HEIGHT) && (player.position.Y < carrot.Bounds.Y + carrot.Bounds.Height))
+            if (player.collidesWithCarrot(carrot))
             {
+                carrot.cough.Play();
                 score += carrot.pointVal;
                 carrot.Bounds.Y = 0;
-                carrot.Bounds.X = RandomizeCarrot();
+                carrot.Bounds.X = RandomizeItem();
             }
-
-            // player.Update(gameTime);
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
@@ -166,7 +161,6 @@ namespace MonoGameWindowsStarter
         {
             GraphicsDevice.Clear(Color.White);
 
-            // TODO: Add your drawing code here
             spriteBatch.Begin();
 
             spriteBatch.Draw(grass, grassRect, Color.White);
@@ -200,21 +194,9 @@ namespace MonoGameWindowsStarter
             this.Initialize();
         }
 
-        private int RandomizeCake()
+        private int RandomizeItem()
         {
             int temp = random.Next(0, graphics.PreferredBackBufferWidth - (int)cake.Bounds.Width);
-            return temp;
-        }
-
-        private int RandomizeCookie()
-        {
-            int temp = random.Next(0, graphics.PreferredBackBufferWidth - (int)cookie.Bounds.Width);
-            return temp;
-        }
-
-        private int RandomizeCarrot()
-        {
-            int temp = random.Next(0, graphics.PreferredBackBufferWidth - (int)carrot.Bounds.Width);
             return temp;
         }
 

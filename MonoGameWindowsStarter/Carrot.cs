@@ -17,15 +17,18 @@ namespace MonoGameWindowsStarter
 
         Texture2D texture;
 
+        public SoundEffect cough;
+
         Random random;
 
         public BoundingRectangle Bounds;
 
         public int pointVal; //-1
-        public Carrot(Game1 game, int pv)
+        public Carrot(Game1 game, int pv, Random r)
         {
             this.game = game;
             pointVal = pv;
+            random = r;
         }
 
         public void Initialize()
@@ -39,6 +42,7 @@ namespace MonoGameWindowsStarter
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("carrot");
+            cough = content.Load<SoundEffect>("Cough");
         }
 
         public void Update(GameTime gameTime)
@@ -48,7 +52,7 @@ namespace MonoGameWindowsStarter
             if (Bounds.Y > (game.GetHeight() - (int)Bounds.Height))
             {
                 Bounds.Y = 0;
-                Bounds.X = RandomizeX() + 120;
+                Bounds.X = RandomizeX(); ;
                 if(Bounds.X + Bounds.Width > game.GetWidth())
                 {
                     Bounds.X = game.GetWidth() - Bounds.Width;
@@ -67,7 +71,6 @@ namespace MonoGameWindowsStarter
 
         public int RandomizeX()
         {
-            random = new Random();
             int temp;
             temp = random.Next(0, game.GetWidth() - (int)Bounds.Width);
             return temp;
