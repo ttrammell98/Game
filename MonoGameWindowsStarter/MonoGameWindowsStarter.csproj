@@ -43,6 +43,9 @@
   <ItemGroup>
     <Compile Include="Block.cs" />
     <Compile Include="BoundingRectangle.cs" />
+    <Compile Include="Cake.cs" />
+    <Compile Include="Carrot.cs" />
+    <Compile Include="Cookie.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace MonoGameWindowsStarter
 {
@@ -16,12 +17,16 @@ namespace MonoGameWindowsStarter
         KeyboardState keyboardState;
         Texture2D grass;
         Rectangle grassRect;
+        Random random = new Random();
         int score = 0;
         SpriteFont font;
         Block block1;
         Block block2;
         SpriteSheet sheet;
         Player player;
+        Cake cake;
+        Cookie cookie;
+        Carrot carrot;
 
         public Game1()
         {
@@ -29,6 +34,9 @@ namespace MonoGameWindowsStarter
             Content.RootDirectory = "Content";
             block1 = new Block(this, 0, 300);
             block2 = new Block(this, 550, 300);
+            cake = new Cake(this, 2);
+            cookie = new Cookie(this, 1);
+            carrot = new Carrot(this, -1);
         }
 
         /// <summary>
@@ -51,7 +59,17 @@ namespace MonoGameWindowsStarter
 
             block1.Initialize();
             block2.Initialize();
-            
+
+            cake.Initialize();
+            cookie.Initialize();
+            carrot.Initialize();
+            //if((cookie.Bounds.X < cake.Bounds.X + cake.Bounds.Width) && (cake.Bounds.X < (cookie.Bounds.X + cookie.Bounds.Width)) && (cookie.Bounds.Y < cake.Bounds.Y + cake.Bounds.Height) && (cake.Bounds.Y < cookie.Bounds.Y + cookie.Bounds.Height))
+            //{
+            //    cookie.Bounds.X += 150;
+            //}
+            cake.Bounds.X = RandomizeCake();
+            cookie.Bounds.X = RandomizeCookie();
+            carrot.Bounds.X = RandomizeCarrot();
 
             base.Initialize();
         }
@@ -74,6 +92,9 @@ namespace MonoGameWindowsStarter
             var playerFrames = from index in Enumerable.Range(9, 1) select sheet[index];
             player = new Player(playerFrames);
 
+            cake.LoadContent(Content);
+            cookie.LoadContent(Content);
+            carrot.LoadContent(Content);
             // TODO: use this.Content to load your game content here
         }
 
@@ -102,7 +123,16 @@ namespace MonoGameWindowsStarter
                 Exit();
             }
 
-            player.Update(gameTime);
+            if (keyboardState.IsKeyDown(Keys.Tab))
+            {
+                this.Reset();
+            }
+
+            cake.Update(gameTime);
+            cookie.Update(gameTime);
+            carrot.Update(gameTime);
+
+            // player.Update(gameTime);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -126,9 +156,46 @@ namespace MonoGameWindowsStarter
             block2.Draw(spriteBatch);
 
             player.Draw(spriteBatch);
+            cake.Draw(spriteBatch);
+            cookie.Draw(spriteBatch);
+            //carrot.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        public int GetWidth()
+        {
+            return graphics.PreferredBackBufferWidth;
+        }
+
+        public int GetHeight()
+        {
+            return graphics.PreferredBackBufferHeight;
+        }
+
+        private void Reset()
+        {
+            score = 0;
+            this.Initialize();
+        }
+
+        private int RandomizeCake()
+        {
+            int temp = random.Next(0, graphics.PreferredBackBufferWidth - (int)cake.Bounds.Width);
+            return temp;
+        }
+
+        private int RandomizeCookie()
+        {
+            int temp = random.Next(0, graphics.PreferredBackBufferWidth - (int)cookie.Bounds.Width);
+            return temp;
+        }
+
+        private int RandomizeCarrot()
+        {
+            int temp = random.Next(0, graphics.PreferredBackBufferWidth - (int)carrot.Bounds.Width);
+            return temp;
         }
 
     }
