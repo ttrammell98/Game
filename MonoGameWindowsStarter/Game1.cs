@@ -32,6 +32,7 @@ namespace MonoGameWindowsStarter
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            player = new Player(this);
             block1 = new Block(this, 0, 300);
             block2 = new Block(this, 550, 300);
             cake = new Cake(this, 2);
@@ -86,11 +87,10 @@ namespace MonoGameWindowsStarter
             font = Content.Load<SpriteFont>("score");
             block1.LoadContent(Content);
             block2.LoadContent(Content);
-            var tex = Content.Load<Texture2D>("spritesheet");
-            sheet = new SpriteSheet(tex, 49, 64, 0, 0); //good for top row
+            //var tex = Content.Load<Texture2D>("spritesheet");
+            //sheet = new SpriteSheet(tex, 49, 64, 0, 0); //good for top row
+            player.LoadContent();
 
-            var playerFrames = from index in Enumerable.Range(9, 1) select sheet[index];
-            player = new Player(playerFrames);
 
             cake.LoadContent(Content);
             cookie.LoadContent(Content);
@@ -128,9 +128,11 @@ namespace MonoGameWindowsStarter
                 this.Reset();
             }
 
+            player.Update(gameTime);
             cake.Update(gameTime);
             cookie.Update(gameTime);
             carrot.Update(gameTime);
+
 
             // player.Update(gameTime);
             // TODO: Add your update logic here
@@ -158,7 +160,7 @@ namespace MonoGameWindowsStarter
             player.Draw(spriteBatch);
             cake.Draw(spriteBatch);
             cookie.Draw(spriteBatch);
-            //carrot.Draw(spriteBatch);
+            carrot.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);

@@ -47,7 +47,16 @@ namespace MonoGameWindowsStarter
 
             if (Bounds.Y > (game.GetHeight() - (int)Bounds.Height))
             {
-                SendBack();
+                Bounds.Y = 0;
+                Bounds.X = RandomizeX() - 80;
+                if (Bounds.X + Bounds.Width > game.GetWidth())
+                {
+                    Bounds.X = game.GetWidth() - Bounds.Width;
+                }
+                if (Bounds.X < 0)
+                {
+                    Bounds.X = 0;
+                }
             }
         }
 
