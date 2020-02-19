@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace MonoGameWindowsStarter
 {
@@ -21,6 +22,13 @@ namespace MonoGameWindowsStarter
         Idle = 4,
     }
 
+    enum VerticalMovementState
+    {
+        OnGround,
+        Jumping,
+        Falling
+    }
+
     /// <summary>
     /// A class representing a player
     /// </summary>
@@ -34,7 +42,7 @@ namespace MonoGameWindowsStarter
         /// <summary>
         /// How quickly the player should move
         /// </summary>
-        const float PLAYER_SPEED = 210;
+        const float PLAYER_SPEED = 225;
 
         /// <summary>
         /// The width of the animation frames
@@ -46,11 +54,19 @@ namespace MonoGameWindowsStarter
         /// </summary>
         public int FRAME_HEIGHT = 64;
 
+        //Starting on ground
+        VerticalMovementState verticalState = VerticalMovementState.OnGround;
+
+        const int JUMP_TIME = 500;
+
+        int speed = 3;
+
         // Private variables
         Game1 game;
         Texture2D texture;
         State state;
         TimeSpan timer;
+        TimeSpan jumpTimer;
         int frame;
         public Vector2 position;
 
@@ -83,13 +99,36 @@ namespace MonoGameWindowsStarter
             KeyboardState keyboard = Keyboard.GetState();
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            // Update the player state based on input
-            if (keyboard.IsKeyDown(Keys.Up))
+
+            // Vertical movement
+            switch (verticalState)
             {
-                //state = State.North;
-                //position.Y -= delta * PLAYER_SPEED;
+                case VerticalMovementState.OnGround:
+                    if (keyboard.IsKeyDown(Keys.Space))
+                    {
+                        verticalState = VerticalMovementState.Jumping;
+                        jumpTimer = new TimeSpan(0);
+                    }
+                    break;
+                case VerticalMovementState.Jumping:
+                    jumpTimer += gameTime.ElapsedGameTime;
+                    // Simple jumping with platformer physics
+                    position.Y -= (350 / (float)jumpTimer.TotalMilliseconds);
+                    if (jumpTimer.TotalMilliseconds >= JUMP_TIME) verticalState = VerticalMovementState.Falling;
+                    break;
+                case VerticalMovementState.Falling:
+                    position.Y += speed;
+                    // TODO: This needs to be replaced with collision logic
+                    if (position.Y > 351)
+                    {
+                        position.Y = 351;
+                        verticalState = VerticalMovementState.OnGround;
+                    }
+                    break;
             }
-            else if (keyboard.IsKeyDown(Keys.Left))
+
+            // Horizontal movement
+            if (keyboard.IsKeyDown(Keys.Left))
             {
                 state = State.West;
                 position.X -= delta * PLAYER_SPEED;
@@ -98,11 +137,6 @@ namespace MonoGameWindowsStarter
             {
                 state = State.East;
                 position.X += delta * PLAYER_SPEED;
-            }
-            else if (keyboard.IsKeyDown(Keys.Down))
-            {
-                //state = State.South;
-                //position.Y += delta * PLAYER_SPEED;
             }
             else state = State.Idle;
 
@@ -189,6 +223,22 @@ namespace MonoGameWindowsStarter
                 return false;
             }
 
+        }
+
+        public void CheckForBlockCollision(IEnumerable<IBoundable> blocks)
+        {
+            foreach (Block block in blocks)
+            {
+                if ((block.Bounds.X < position.X + FRAME_WIDTH) && (position.X < (block.Bounds.X + block.Bounds.Width)) && (block.Bounds.Y < position.Y + FRAME_HEIGHT) && (position.Y < block.Bounds.Y + block.Bounds.Height))
+                {
+                    //position.Y = block.Bounds.Y - block.Bounds.Height - FRAME_HEIGHT;
+                    verticalState = VerticalMovementState.OnGround;
+                }
+                else
+                {
+                    verticalState = VerticalMovementState.Falling;
+                }
+            }
         }
 
     }

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Audio;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using System.Diagnostics;
 
 namespace MonoGameWindowsStarter
 {
@@ -27,6 +28,8 @@ namespace MonoGameWindowsStarter
         Cake cake;
         Cookie cookie;
         Carrot carrot;
+        AxisList world;
+        List<Block> blocks;
 
         public Game1()
         {
@@ -38,6 +41,7 @@ namespace MonoGameWindowsStarter
             cake = new Cake(this, 2, random);
             cookie = new Cookie(this, 1, random);
             carrot = new Carrot(this, -5, random);
+            blocks = new List<Block>();
         }
 
         /// <summary>
@@ -90,7 +94,17 @@ namespace MonoGameWindowsStarter
             cake.LoadContent(Content);
             cookie.LoadContent(Content);
             carrot.LoadContent(Content);
-            // TODO: use this.Content to load your game content here
+
+            blocks.Add(block1);
+            blocks.Add(block2);
+
+
+            world = new AxisList();
+            foreach (Block block in blocks)
+            {
+               world.AddGameObject(block);
+            }
+            
         }
 
         /// <summary>
@@ -150,6 +164,9 @@ namespace MonoGameWindowsStarter
                 carrot.Bounds.X = RandomizeItem();
             }
 
+            var blockQuery = world.QueryRange(player.position.X, player.position.X + player.FRAME_WIDTH);
+            player.CheckForBlockCollision(blockQuery);
+
             base.Update(gameTime);
         }
 
@@ -191,7 +208,16 @@ namespace MonoGameWindowsStarter
         private void Reset()
         {
             score = 0;
-            this.Initialize();
+            block1.Initialize();
+            block2.Initialize();
+
+            cake.Initialize();
+            cookie.Initialize();
+            carrot.Initialize();
+
+            cake.Bounds.X = RandomizeItem();
+            cookie.Bounds.X = RandomizeItem();
+            carrot.Bounds.X = RandomizeItem();
         }
 
         private int RandomizeItem()

@@ -14,25 +14,27 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonoGameWindowsStarter
 {
-    public class Block
+    public class Block : IBoundable
     {
         Game1 game;
 
         Texture2D texture;
 
-        public BoundingRectangle Bounds;
+        BoundingRectangle bounds;
+
+        public BoundingRectangle Bounds => bounds;
 
         public Block(Game1 game, float x, float y)
         {
             this.game = game;
-            Bounds.X = x;
-            Bounds.Y = y;
+            bounds.X = x;
+            bounds.Y = y;
         }
 
         public void Initialize()
         {
-            Bounds.Width = 170;
-            Bounds.Height = 25;
+            bounds.Width = 170;
+            bounds.Height = 25;
         }
 
         public void LoadContent(ContentManager content)
@@ -47,12 +49,12 @@ namespace MonoGameWindowsStarter
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, Bounds, Color.Tan);
+            spriteBatch.Draw(texture, bounds, Color.Tan);
         }
 
         public BoundingRectangle GetBounding()
         {
-            return Bounds;
+            return bounds;
         }
     }
 }
