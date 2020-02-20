@@ -10,8 +10,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 
 
-
-
 namespace MonoGameWindowsStarter
 {
     public class Block : IBoundable

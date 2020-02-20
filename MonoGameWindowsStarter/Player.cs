@@ -118,7 +118,7 @@ namespace MonoGameWindowsStarter
                     break;
                 case VerticalMovementState.Falling:
                     position.Y += speed;
-                    // TODO: This needs to be replaced with collision logic
+                    //collision logic
                     if (position.Y > 351)
                     {
                         position.Y = 351;
@@ -165,6 +165,13 @@ namespace MonoGameWindowsStarter
             {
                 position.X = 0;
             }
+
+            //Ensures the player falls off the blocks 
+            if ((position.X > 170 && position.X < 550) && (position.Y + FRAME_HEIGHT <= 300))
+            {
+                verticalState = VerticalMovementState.Falling;
+            }
+
         }
 
         /// <summary>
@@ -231,7 +238,7 @@ namespace MonoGameWindowsStarter
             {
                 if ((block.Bounds.X < position.X + FRAME_WIDTH) && (position.X < (block.Bounds.X + block.Bounds.Width)) && (block.Bounds.Y < position.Y + FRAME_HEIGHT) && (position.Y < block.Bounds.Y + block.Bounds.Height))
                 {
-                    //position.Y = block.Bounds.Y - block.Bounds.Height - FRAME_HEIGHT;
+                    position.Y = block.Bounds.Y - FRAME_HEIGHT;
                     verticalState = VerticalMovementState.OnGround;
                 }
                 else
