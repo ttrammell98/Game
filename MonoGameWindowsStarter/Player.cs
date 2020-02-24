@@ -157,6 +157,7 @@ namespace MonoGameWindowsStarter
             // Keep the frame within bounds (there are four frames)
             frame %= 4;
 
+            //Will need to comment this out for project 4
             if(position.X < 0)
             {
                 position.X = game.GetWidth() - FRAME_WIDTH;

@@ -57,7 +57,7 @@ namespace MonoGameWindowsStarter
             graphics.PreferredBackBufferHeight = 480;
             graphics.ApplyChanges();
 
-            grassRect.Width = 720; //width of screen
+            grassRect.Width = 1440; //width of screen
             grassRect.Height = 65;
             grassRect.X = 0;
             grassRect.Y = graphics.PreferredBackBufferHeight - grassRect.Height;
@@ -176,8 +176,12 @@ namespace MonoGameWindowsStarter
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+
+            var offset = new Vector2(200, 300) - player.position;
+            var t = Matrix.CreateTranslation(offset.X, offset.Y, 0);
             GraphicsDevice.Clear(Color.White);
 
+            //spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, t);
             spriteBatch.Begin();
 
             spriteBatch.Draw(grass, grassRect, Color.White);
