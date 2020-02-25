@@ -24,12 +24,14 @@ namespace MonoGameWindowsStarter
         SpriteFont font;
         Block block1;
         Block block2;
+        Block block3;
         Player player;
         Cake cake;
         Cookie cookie;
         Carrot carrot;
         AxisList world;
         List<Block> blocks;
+        int worldWidth = 1440;
 
         public Game1()
         {
@@ -38,6 +40,7 @@ namespace MonoGameWindowsStarter
             player = new Player(this);
             block1 = new Block(this, 0, 300);
             block2 = new Block(this, 550, 300);
+            block3 = new Block(this, 995, 300); // middle of the new part of the world
             cake = new Cake(this, 2, random);
             cookie = new Cookie(this, 1, random);
             carrot = new Carrot(this, -5, random);
@@ -57,13 +60,14 @@ namespace MonoGameWindowsStarter
             graphics.PreferredBackBufferHeight = 480;
             graphics.ApplyChanges();
 
-            grassRect.Width = 1440; //width of screen
+            grassRect.Width = worldWidth; //width of world
             grassRect.Height = 65;
             grassRect.X = 0;
             grassRect.Y = graphics.PreferredBackBufferHeight - grassRect.Height;
 
             block1.Initialize();
             block2.Initialize();
+            block3.Initialize();
 
             cake.Initialize();
             cookie.Initialize();
@@ -88,6 +92,7 @@ namespace MonoGameWindowsStarter
             font = Content.Load<SpriteFont>("score");
             block1.LoadContent(Content);
             block2.LoadContent(Content);
+            block3.LoadContent(Content);
             player.LoadContent();
 
 
@@ -97,6 +102,7 @@ namespace MonoGameWindowsStarter
 
             blocks.Add(block1);
             blocks.Add(block2);
+            blocks.Add(block3);
 
 
             world = new AxisList();
@@ -167,6 +173,7 @@ namespace MonoGameWindowsStarter
             var blockQuery = world.QueryRange(player.position.X, player.position.X + player.FRAME_WIDTH);
             player.CheckForBlockCollision(blockQuery);
 
+            //Console.WriteLine($"Checking for {blockQuery.Count()} collisions");
             base.Update(gameTime);
         }
 
@@ -177,18 +184,44 @@ namespace MonoGameWindowsStarter
         protected override void Draw(GameTime gameTime)
         {
 
-            var offset = new Vector2(200, 300) - player.position;
+            var offset = new Vector2(360, 351) - player.position;
             var t = Matrix.CreateTranslation(offset.X, offset.Y, 0);
-            GraphicsDevice.Clear(Color.White);
+            var gameVect = new Vector2(1080, 351);
+            var o = new Vector2(360, 351) - gameVect;
+            var tmp = Matrix.CreateTranslation(o.X, o.Y, 0);
 
-            //spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, t);
-            spriteBatch.Begin();
+            if (player.position.X <= 360)
+            {
+                spriteBatch.Begin();
+            }
+            else if (player.position.X >= (worldWidth - (0.5*graphics.PreferredBackBufferWidth))) //1080 in our case, 3/4 of full world
+            {
+
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, tmp);
+            }
+            else
+            {
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, t);
+            }
+
+            GraphicsDevice.Clear(Color.White);
+            //spriteBatch.Begin();
+            Vector2 midScreen = new Vector2(player.position.X, 0);
+            if (player.position.X <= 360)
+            {
+                midScreen.X = 360;
+            }
+            if (player.position.X >= (worldWidth - (0.5 * graphics.PreferredBackBufferWidth)))
+            {
+                midScreen.X = 1080;
+            }
 
             spriteBatch.Draw(grass, grassRect, Color.White);
-            spriteBatch.DrawString(font, "Score: " + score, new Vector2(0, 0), Color.Black);
+            spriteBatch.DrawString(font, "Score: " + score, midScreen, Color.Black);
 
             block1.Draw(spriteBatch);
             block2.Draw(spriteBatch);
+            block3.Draw(spriteBatch);
 
             player.Draw(spriteBatch);
             cake.Draw(spriteBatch);

@@ -158,17 +158,18 @@ namespace MonoGameWindowsStarter
             frame %= 4;
 
             //Will need to comment this out for project 4
-            if(position.X < 0)
+            if (position.X < 0)
             {
-                position.X = game.GetWidth() - FRAME_WIDTH;
-            }
-            if(position.X + FRAME_WIDTH > game.GetWidth())
-            {
+                //position.X = game.GetWidth() - FRAME_WIDTH;
                 position.X = 0;
+            }
+            if (position.X + FRAME_WIDTH >= 1440)
+            {
+                position.X = 1440 - FRAME_WIDTH;
             }
 
             //Ensures the player falls off the blocks 
-            if ((position.X > 170 && position.X < 550) && (position.Y + FRAME_HEIGHT <= 300))
+            if ((position.X > 170 && position.X < 550) && (position.Y + FRAME_HEIGHT <= 300) || ((position.X + FRAME_WIDTH < 995 && position.X > 1165) && (position.Y + FRAME_HEIGHT <= 300)))
             {
                 verticalState = VerticalMovementState.Falling;
             }
