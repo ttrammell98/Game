@@ -31,6 +31,18 @@
 /processorParam:TextureFormat=Color
 /build:block.png
 
+#begin broccoli.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:broccoli.png
+
 #begin Cake.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -72,6 +84,18 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Cough.wav
+
+#begin donut.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:donut.png
 
 #begin grass.png
 /importer:TextureImporter

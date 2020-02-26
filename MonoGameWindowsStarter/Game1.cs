@@ -28,7 +28,9 @@ namespace MonoGameWindowsStarter
         Player player;
         Cake cake;
         Cookie cookie;
+        Donut donut;
         Carrot carrot;
+        Broccoli broccoli;
         AxisList world;
         List<Block> blocks;
         int worldWidth = 1440;
@@ -43,7 +45,9 @@ namespace MonoGameWindowsStarter
             block3 = new Block(this, 995, 300); // middle of the new part of the world
             cake = new Cake(this, 2, random);
             cookie = new Cookie(this, 1, random);
-            carrot = new Carrot(this, -5, random);
+            donut = new Donut(this, 5, random);
+            carrot = new Carrot(this, -3, random);
+            broccoli = new Broccoli(this, -5, random);
             blocks = new List<Block>();
         }
 
@@ -72,10 +76,14 @@ namespace MonoGameWindowsStarter
             cake.Initialize();
             cookie.Initialize();
             carrot.Initialize();
+            broccoli.Initialize();
+            donut.Initialize();
 
             cake.Bounds.X = RandomizeItem();
             cookie.Bounds.X = RandomizeItem();
             carrot.Bounds.X = RandomizeItem();
+            broccoli.Bounds.X = RandomizeItem();
+            donut.Bounds.X = RandomizeItem();
 
             base.Initialize();
         }
@@ -98,7 +106,9 @@ namespace MonoGameWindowsStarter
 
             cake.LoadContent(Content);
             cookie.LoadContent(Content);
+            donut.LoadContent(Content);
             carrot.LoadContent(Content);
+            broccoli.LoadContent(Content);
 
             blocks.Add(block1);
             blocks.Add(block2);
@@ -146,7 +156,9 @@ namespace MonoGameWindowsStarter
             player.Update(gameTime);
             cake.Update(gameTime);
             cookie.Update(gameTime);
+            donut.Update(gameTime);
             carrot.Update(gameTime);
+            broccoli.Update(gameTime);
 
             if (player.collidesWithCake(cake))
             {
@@ -169,6 +181,20 @@ namespace MonoGameWindowsStarter
                 carrot.Bounds.Y = 0;
                 carrot.Bounds.X = RandomizeItem();
             }
+            if (player.collidesWithBroccoli(broccoli))
+            {
+                broccoli.cough.Play();
+                score += broccoli.pointVal;
+                broccoli.Bounds.Y = 0;
+                broccoli.Bounds.X = RandomizeItem();
+            }
+            if (player.collidesWithDonut(donut))
+            {
+                donut.eating.Play();
+                score += donut.pointVal;
+                donut.Bounds.Y = 0;
+                donut.Bounds.X = RandomizeItem();
+            }
 
             var blockQuery = world.QueryRange(player.position.X, player.position.X + player.FRAME_WIDTH);
             player.CheckForBlockCollision(blockQuery);
@@ -185,7 +211,7 @@ namespace MonoGameWindowsStarter
         {
 
             var offset = new Vector2(360, 351) - player.position;
-            var t = Matrix.CreateTranslation(offset.X, offset.Y, 0);
+            var t = Matrix.CreateTranslation(offset.X, 0, 0);
             var gameVect = new Vector2(1080, 351);
             var o = new Vector2(360, 351) - gameVect;
             var tmp = Matrix.CreateTranslation(o.X, o.Y, 0);
@@ -226,7 +252,9 @@ namespace MonoGameWindowsStarter
             player.Draw(spriteBatch);
             cake.Draw(spriteBatch);
             cookie.Draw(spriteBatch);
+            donut.Draw(spriteBatch);
             carrot.Draw(spriteBatch);
+            broccoli.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);
@@ -240,6 +268,10 @@ namespace MonoGameWindowsStarter
         public int GetHeight()
         {
             return graphics.PreferredBackBufferHeight;
+        }
+        public int GetWorldWidth()
+        {
+            return worldWidth;
         }
 
         private void Reset()

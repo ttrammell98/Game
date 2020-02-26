@@ -23,7 +23,7 @@ namespace MonoGameWindowsStarter
 
         public BoundingRectangle Bounds;
 
-        public int pointVal; //-1
+        public int pointVal; //-3
         public Carrot(Game1 game, int pv, Random r)
         {
             this.game = game;
@@ -53,9 +53,9 @@ namespace MonoGameWindowsStarter
             {
                 Bounds.Y = 0;
                 Bounds.X = RandomizeX(); ;
-                if(Bounds.X + Bounds.Width > game.GetWidth())
+                if(Bounds.X + Bounds.Width > game.GetWorldWidth())
                 {
-                    Bounds.X = game.GetWidth() - Bounds.Width;
+                    Bounds.X = game.GetWorldWidth() - Bounds.Width;
                 }
                 if (Bounds.X < 0)
                 {
@@ -72,7 +72,7 @@ namespace MonoGameWindowsStarter
         public int RandomizeX()
         {
             int temp;
-            temp = random.Next(0, game.GetWidth() - (int)Bounds.Width);
+            temp = random.Next(0, game.GetWorldWidth() - (int)Bounds.Width);
             return temp;
         }
 

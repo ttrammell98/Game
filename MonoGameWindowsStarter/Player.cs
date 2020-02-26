@@ -169,7 +169,15 @@ namespace MonoGameWindowsStarter
             }
 
             //Ensures the player falls off the blocks 
-            if ((position.X > 170 && position.X < 550) && (position.Y + FRAME_HEIGHT <= 300) || ((position.X + FRAME_WIDTH < 995 && position.X > 1165) && (position.Y + FRAME_HEIGHT <= 300)))
+            if ((position.X > 170 && position.X < 550) && (position.Y + FRAME_HEIGHT <= 300))
+            {
+                verticalState = VerticalMovementState.Falling;
+            }
+            if ((position.X > 720 && position.X < 995) && (position.Y + FRAME_HEIGHT <= 300))
+            {
+                verticalState = VerticalMovementState.Falling;
+            }
+            if ((position.X < 995 && position.X > 1165) && (position.Y + FRAME_HEIGHT <= 300))
             {
                 verticalState = VerticalMovementState.Falling;
             }
@@ -224,6 +232,32 @@ namespace MonoGameWindowsStarter
         public bool collidesWithCarrot(Carrot carrot)
         {
             if ((carrot.Bounds.X < position.X + FRAME_WIDTH) && (position.X < (carrot.Bounds.X + carrot.Bounds.Width)) && (carrot.Bounds.Y < position.Y + FRAME_HEIGHT) && (position.Y < carrot.Bounds.Y + carrot.Bounds.Height))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public bool collidesWithBroccoli(Broccoli broccoli)
+        {
+            if ((broccoli.Bounds.X < position.X + FRAME_WIDTH) && (position.X < (broccoli.Bounds.X + broccoli.Bounds.Width)) && (broccoli.Bounds.Y < position.Y + FRAME_HEIGHT) && (position.Y < broccoli.Bounds.Y + broccoli.Bounds.Height))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public bool collidesWithDonut(Donut donut)
+        {
+            if ((donut.Bounds.X < position.X + FRAME_WIDTH) && (position.X < (donut.Bounds.X + donut.Bounds.Width)) && (donut.Bounds.Y < position.Y + FRAME_HEIGHT) && (position.Y < donut.Bounds.Y + donut.Bounds.Height))
             {
                 return true;
             }

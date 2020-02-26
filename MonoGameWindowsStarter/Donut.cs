@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonoGameWindowsStarter
 {
-    public class Cookie
+    public class Donut
     {
         Game1 game;
 
@@ -23,8 +23,9 @@ namespace MonoGameWindowsStarter
 
         public BoundingRectangle Bounds;
 
-        public int pointVal; //1
-        public Cookie(Game1 game, int pv, Random r)
+        public int pointVal; //5
+
+        public Donut(Game1 game, int pv, Random r)
         {
             this.game = game;
             pointVal = pv;
@@ -41,7 +42,7 @@ namespace MonoGameWindowsStarter
 
         public void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("Cookie");
+            texture = content.Load<Texture2D>("donut");
             eating = content.Load<SoundEffect>("Bite");
         }
 
@@ -80,7 +81,6 @@ namespace MonoGameWindowsStarter
         {
             this.Initialize();
         }
-
 
     }
 }

@@ -11,20 +11,20 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MonoGameWindowsStarter
 {
-    public class Cookie
+    public class Broccoli
     {
         Game1 game;
 
         Texture2D texture;
 
-        Random random;
+        public SoundEffect cough;
 
-        public SoundEffect eating;
+        Random random;
 
         public BoundingRectangle Bounds;
 
-        public int pointVal; //1
-        public Cookie(Game1 game, int pv, Random r)
+        public int pointVal; //-5
+        public Broccoli(Game1 game, int pv, Random r)
         {
             this.game = game;
             pointVal = pv;
@@ -41,8 +41,8 @@ namespace MonoGameWindowsStarter
 
         public void LoadContent(ContentManager content)
         {
-            texture = content.Load<Texture2D>("Cookie");
-            eating = content.Load<SoundEffect>("Bite");
+            texture = content.Load<Texture2D>("broccoli");
+            cough = content.Load<SoundEffect>("Cough");
         }
 
         public void Update(GameTime gameTime)
@@ -52,7 +52,7 @@ namespace MonoGameWindowsStarter
             if (Bounds.Y > (game.GetHeight() - (int)Bounds.Height))
             {
                 Bounds.Y = 0;
-                Bounds.X = RandomizeX();
+                Bounds.X = RandomizeX(); ;
                 if (Bounds.X + Bounds.Width > game.GetWorldWidth())
                 {
                     Bounds.X = game.GetWorldWidth() - Bounds.Width;
@@ -75,6 +75,7 @@ namespace MonoGameWindowsStarter
             temp = random.Next(0, game.GetWorldWidth() - (int)Bounds.Width);
             return temp;
         }
+
 
         public void SendBack()
         {

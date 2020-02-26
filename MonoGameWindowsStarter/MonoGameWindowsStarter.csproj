@@ -44,9 +44,11 @@
     <Compile Include="AxisList.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="BoundingRectangle.cs" />
+    <Compile Include="Broccoli.cs" />
     <Compile Include="Cake.cs" />
     <Compile Include="Carrot.cs" />
     <Compile Include="Cookie.cs" />
+    <Compile Include="Donut.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="IBoundable.cs" />
     <Compile Include="Player.cs" />
