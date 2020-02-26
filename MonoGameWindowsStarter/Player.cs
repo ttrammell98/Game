@@ -181,6 +181,11 @@ namespace MonoGameWindowsStarter
             {
                 verticalState = VerticalMovementState.Falling;
             }
+            if ((position.X > 1165) && (position.Y + FRAME_HEIGHT <= 300))
+            {
+                verticalState = VerticalMovementState.Falling;
+            }
+
 
         }
 
