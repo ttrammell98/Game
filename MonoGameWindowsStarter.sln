@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGameWindowsStarter", "MonoGameWindowsStarter\MonoGameWindowsStarter.csproj", "{C491FCEF-8215-49C9-A42D-400F6594F660}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlatformLibrary", "PlatformLibrary\PlatformLibrary.csproj", "{75FE1376-9E4F-4809-8C2D-6A0E39AF0B4C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLibrary", "PlatformLibrary\GameLibrary.csproj", "{75FE1376-9E4F-4809-8C2D-6A0E39AF0B4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlatformerContentExtension", "PlatformerContentExtension\PlatformerContentExtension.csproj", "{C8AE826D-308D-475C-93EA-18A2CDC8C5D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameContentExtension", "PlatformerContentExtension\GameContentExtension.csproj", "{C8AE826D-308D-475C-93EA-18A2CDC8C5D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

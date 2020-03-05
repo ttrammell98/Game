@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Diagnostics;
+using GameLibrary;
 
 namespace MonoGameWindowsStarter
 {
@@ -34,7 +35,9 @@ namespace MonoGameWindowsStarter
         AxisList world;
         List<Block> blocks;
         int worldWidth = 1440;
+        Message message;
 
+ 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -109,6 +112,8 @@ namespace MonoGameWindowsStarter
             donut.LoadContent(Content);
             carrot.LoadContent(Content);
             broccoli.LoadContent(Content);
+
+            message = Content.Load<Message>("message1");
 
             blocks.Add(block1);
             blocks.Add(block2);
@@ -244,6 +249,7 @@ namespace MonoGameWindowsStarter
 
             spriteBatch.Draw(grass, grassRect, Color.White);
             spriteBatch.DrawString(font, "Score: " + score, midScreen, Color.Black);
+            Console.WriteLine(message.ToString());
 
             block1.Draw(spriteBatch);
             block2.Draw(spriteBatch);

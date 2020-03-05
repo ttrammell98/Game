@@ -10,6 +10,8 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\..\PlatformerContentExtension\bin\Debug\PlatformerContentExtension.dll
+/reference:..\..\PlatformLibrary\bin\Debug\PlatformLibrary.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -108,6 +110,11 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:grass.png
+
+#begin message1.txt
+/importer:MessageImporter
+/processor:MessageProcessor
+/build:message1.txt
 
 #begin score.spritefont
 /importer:FontDescriptionImporter

@@ -41,22 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TileContent.cs" />
-    <Compile Include="TilemapContent.cs" />
-    <Compile Include="TilemapImporter.cs" />
-    <Compile Include="TilemapLayerContent.cs" />
-    <Compile Include="TilemapProcessor.cs" />
-    <Compile Include="TilemapWriter.cs" />
-    <Compile Include="TilesetWriter.cs" />
-    <Compile Include="TilesetContent.cs" />
-    <Compile Include="TilesetImporter.cs" />
-    <Compile Include="TilesetProcessor.cs" />
+    <Compile Include="MessageImporter.cs" />
+    <Compile Include="MessageWriter.cs" />
+    <Compile Include="MessageProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PlatformLibrary\PlatformLibrary.csproj">
+    <ProjectReference Include="..\PlatformLibrary\GameLibrary.csproj">
       <Project>{75fe1376-9e4f-4809-8c2d-6a0e39af0b4c}</Project>
-      <Name>PlatformLibrary</Name>
+      <Name>GameLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
