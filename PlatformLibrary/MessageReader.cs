@@ -17,7 +17,7 @@ namespace GameLibrary
         protected override TRead Read (ContentReader input, TRead existingInstance)
         {
             string messageData = input.ReadString();
-            return new GameLibrary.Message(messageData);
+            return new Message(messageData);
         }
        
     }

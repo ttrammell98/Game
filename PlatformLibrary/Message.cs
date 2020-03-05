@@ -10,9 +10,9 @@ namespace GameLibrary
 {
     public class Message
     {
-        private Vector2 source;
-        private SpriteFont font;
-        private Color color = Color.Gold;
+        //private Vector2 source;
+        //private SpriteFont font;
+        //private Color color = Color.Gold;
         public string text;
 
         public Message(string v)
@@ -20,10 +20,10 @@ namespace GameLibrary
             this.text = v;
         }
 
-        public void WriteMessage(SpriteBatch SpriteBatch, string txt, Vector2 pos, Color c)
-        {
-            SpriteBatch.DrawString(font, text, source, color);
-        }
+        //public void WriteMessage(SpriteBatch SpriteBatch, string txt, Vector2 pos, Color c)
+        //{
+        //    SpriteBatch.DrawString(font, text, source, color);
+        //}
 
     }
 }
