@@ -36,6 +36,8 @@ namespace MonoGameWindowsStarter
         List<Block> blocks;
         int worldWidth = 1440;
         Message message;
+        Texture2D button;
+        Rectangle buttonRect;
 
  
         public Game1()
@@ -72,6 +74,11 @@ namespace MonoGameWindowsStarter
             grassRect.X = 0;
             grassRect.Y = graphics.PreferredBackBufferHeight - grassRect.Height;
 
+            buttonRect.Width = 60;
+            buttonRect.Height = 20;
+            buttonRect.X = 0;
+            buttonRect.Y = (int)block1.Bounds.Y - 15;
+
             block1.Initialize();
             block2.Initialize();
             block3.Initialize();
@@ -101,12 +108,12 @@ namespace MonoGameWindowsStarter
             spriteBatch = new SpriteBatch(GraphicsDevice);
             grass = Content.Load<Texture2D>("grass");
             font = Content.Load<SpriteFont>("score");
+            button = Content.Load<Texture2D>("button");
             block1.LoadContent(Content);
             block2.LoadContent(Content);
             block3.LoadContent(Content);
+
             player.LoadContent();
-
-
             cake.LoadContent(Content);
             cookie.LoadContent(Content);
             donut.LoadContent(Content);
@@ -201,6 +208,12 @@ namespace MonoGameWindowsStarter
                 donut.Bounds.X = RandomizeItem();
             }
 
+            if (PlayerCollidesWithButton())
+            {
+                buttonRect.Y += 20;
+            }
+
+
             var blockQuery = world.QueryRange(player.position.X, player.position.X + player.FRAME_WIDTH);
             player.CheckForBlockCollision(blockQuery);
 
@@ -249,7 +262,15 @@ namespace MonoGameWindowsStarter
 
             spriteBatch.Draw(grass, grassRect, Color.White);
             spriteBatch.DrawString(font, "Score: " + score, midScreen, Color.Black);
-            Console.WriteLine(message.text);
+            //Console.WriteLine(message.text);
+            spriteBatch.DrawString(font, message.text, new Vector2(600, 0), Color.Aqua);
+            if (player.position.X <= buttonRect.X + buttonRect.Width)
+            {
+                spriteBatch.DrawString(font, message.text, new Vector2(0, 0), Color.Gold);
+            }
+
+
+            spriteBatch.Draw(button, buttonRect, Color.White);
 
             block1.Draw(spriteBatch);
             block2.Draw(spriteBatch);
@@ -299,6 +320,18 @@ namespace MonoGameWindowsStarter
         {
             int temp = random.Next(0, graphics.PreferredBackBufferWidth - (int)cake.Bounds.Width);
             return temp;
+        }
+
+        private bool PlayerCollidesWithButton()
+        {
+            if ((buttonRect.X < player.position.X + player.FRAME_WIDTH) && (player.position.X < (buttonRect.X + buttonRect.Width)) && (buttonRect.Y < player.position.Y + player.FRAME_HEIGHT) && (player.position.Y < buttonRect.Y + buttonRect.Height))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
     }
