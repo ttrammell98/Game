@@ -249,7 +249,7 @@ namespace MonoGameWindowsStarter
 
             spriteBatch.Draw(grass, grassRect, Color.White);
             spriteBatch.DrawString(font, "Score: " + score, midScreen, Color.Black);
-            Console.WriteLine(message.ToString());
+            Console.WriteLine(message.text);
 
             block1.Draw(spriteBatch);
             block2.Draw(spriteBatch);

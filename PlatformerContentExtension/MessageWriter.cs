@@ -30,7 +30,7 @@ namespace PlatformerContentExtension
         /// <returns>The name of the reader</returns>
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            return "GameLibrary.MessageReader, GameLibrary";
+            return "GameLibrary.MessageReader, PlatformLibrary";
         }
     }
 }
