@@ -38,8 +38,8 @@ namespace MonoGameWindowsStarter
         Message message;
         Texture2D button;
         Rectangle buttonRect;
+        bool hasPressedButton = false;
 
- 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -211,6 +211,7 @@ namespace MonoGameWindowsStarter
             if (PlayerCollidesWithButton())
             {
                 buttonRect.Y += 20;
+                score += 10;
             }
 
 
@@ -227,7 +228,6 @@ namespace MonoGameWindowsStarter
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-
             var offset = new Vector2(360, 351) - player.position;
             var t = Matrix.CreateTranslation(offset.X, 0, 0);
             var gameVect = new Vector2(1080, 351);
@@ -262,13 +262,17 @@ namespace MonoGameWindowsStarter
 
             spriteBatch.Draw(grass, grassRect, Color.White);
             spriteBatch.DrawString(font, "Score: " + score, midScreen, Color.Black);
-            //Console.WriteLine(message.text);
-            spriteBatch.DrawString(font, message.text, new Vector2(600, 0), Color.Aqua);
-            if (player.position.X <= buttonRect.X + buttonRect.Width)
+            if (player.position.X <= buttonRect.X + buttonRect.Width && player.position.Y < 340)
+            {
+                hasPressedButton = true;
+            }
+
+            if (hasPressedButton)
             {
                 spriteBatch.DrawString(font, message.text, new Vector2(0, 0), Color.Gold);
             }
 
+            Console.WriteLine(player.position.Y);
 
             spriteBatch.Draw(button, buttonRect, Color.White);
 
@@ -310,6 +314,12 @@ namespace MonoGameWindowsStarter
             cake.Initialize();
             cookie.Initialize();
             carrot.Initialize();
+
+            buttonRect.Width = 60;
+            buttonRect.Height = 20;
+            buttonRect.X = 0;
+            buttonRect.Y = (int)block1.Bounds.Y - 15;
+            hasPressedButton = false;
 
             cake.Bounds.X = RandomizeItem();
             cookie.Bounds.X = RandomizeItem();

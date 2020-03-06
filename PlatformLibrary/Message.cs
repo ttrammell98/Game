@@ -10,8 +10,6 @@ namespace GameLibrary
 {
     public class Message
     {
-        //private SpriteFont font;
-        //private Color color = Color.Gold;
         public string text;
 
         public Message(string v)
