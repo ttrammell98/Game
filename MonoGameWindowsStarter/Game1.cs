@@ -39,7 +39,8 @@ namespace MonoGameWindowsStarter
         Texture2D button;
         Rectangle buttonRect;
         bool hasPressedButton = false;
-
+        ParticleSystem particleSystem;
+        Texture2D particleTexture;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -132,7 +133,13 @@ namespace MonoGameWindowsStarter
             {
                world.AddGameObject(block);
             }
-            
+
+            // TODO: use this.Content to load your game content here
+            particleTexture = Content.Load<Texture2D>("Particle");
+            particleSystem = new ParticleSystem(this.GraphicsDevice, 1000, particleTexture);
+            particleSystem.Emitter = new Vector2(25, 150);
+            particleSystem.SpawnPerFrame = 4;
+
         }
 
         /// <summary>
@@ -164,7 +171,8 @@ namespace MonoGameWindowsStarter
             {
                 this.Reset();
             }
-
+            // TODO: Add your update logic here
+            particleSystem.Update(gameTime);
             player.Update(gameTime);
             cake.Update(gameTime);
             cookie.Update(gameTime);
@@ -218,7 +226,7 @@ namespace MonoGameWindowsStarter
             var blockQuery = world.QueryRange(player.position.X, player.position.X + player.FRAME_WIDTH);
             player.CheckForBlockCollision(blockQuery);
 
-            //Console.WriteLine($"Checking for {blockQuery.Count()} collisions");
+            
             base.Update(gameTime);
         }
 
@@ -261,6 +269,7 @@ namespace MonoGameWindowsStarter
             }
 
             spriteBatch.Draw(grass, grassRect, Color.White);
+            particleSystem.Draw();
             spriteBatch.DrawString(font, "Score: " + score, midScreen, Color.Black);
             if (player.position.X <= buttonRect.X + buttonRect.Width && player.position.Y < 340)
             {
@@ -271,9 +280,8 @@ namespace MonoGameWindowsStarter
             {
                 spriteBatch.DrawString(font, message.text, new Vector2(0, 0), Color.Gold);
             }
-
-            Console.WriteLine(player.position.Y);
-
+            //MouseState mouse = Mouse.GetState();
+            //Console.WriteLine("X: " + mouse.X + "Y: " + mouse.Y);
             spriteBatch.Draw(button, buttonRect, Color.White);
 
             block1.Draw(spriteBatch);
@@ -286,7 +294,7 @@ namespace MonoGameWindowsStarter
             donut.Draw(spriteBatch);
             carrot.Draw(spriteBatch);
             broccoli.Draw(spriteBatch);
-
+            
             spriteBatch.End();
             base.Draw(gameTime);
         }
