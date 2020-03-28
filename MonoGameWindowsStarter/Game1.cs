@@ -43,6 +43,8 @@ namespace MonoGameWindowsStarter
         bool hasPressedButton = false;
         ParticleSystem particleSystem;
         Texture2D particleTexture;
+        SparkleSystem sparkleSystem;
+        Texture2D sparkleTexture;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -124,13 +126,13 @@ namespace MonoGameWindowsStarter
 
             // TODO: use this.Content to load your game content here
             particleTexture = Content.Load<Texture2D>("Particle");
-            particleSystem = new ParticleSystem(this.GraphicsDevice, 500, particleTexture);
+            particleSystem = new ParticleSystem(this.GraphicsDevice, 1000, particleTexture);
             //particleSystem.Emitter = new Vector2(360, 0);
             particleSystem.SpawnPerFrame = 1;
             // Set the SpawnParticle method
             particleSystem.SpawnParticle = (ref Particle particle) =>
             {
-                particle.Position = new Vector2(360, 15);
+                particle.Position = new Vector2(390, 40);
                 particle.Velocity = new Vector2(
                     MathHelper.Lerp(-360, 360, (float)random.NextDouble()), 
                     MathHelper.Lerp(0, 300, (float)random.NextDouble()) // Y between 0 and 100
@@ -140,8 +142,6 @@ namespace MonoGameWindowsStarter
                 particle.Scale = 1f;
                 particle.Life = 2.0f;
             };
-
-            // Set the UpdateParticle method
             particleSystem.UpdateParticle = (float deltaT, ref Particle particle) =>
             {
                 particle.Velocity += deltaT * particle.Acceleration;
@@ -149,6 +149,32 @@ namespace MonoGameWindowsStarter
                 particle.Scale -= deltaT;
                 particle.Life -= deltaT;
             };
+
+            sparkleTexture = Content.Load<Texture2D>("star");
+            sparkleSystem = new SparkleSystem(this.GraphicsDevice, 300, sparkleTexture); //300
+            sparkleSystem.Emitter = new Vector2(75, 75);
+            sparkleSystem.SpawnPerFrame = 2;
+            sparkleSystem.SpawnSparkle = (ref Particle particle) =>
+            {
+                particle.Position = new Vector2(30, block1.Bounds.Y - sparkleTexture.Height);
+                particle.Velocity = new Vector2(
+                    MathHelper.Lerp(-30, 30, (float)random.NextDouble()), // X between -30 and 30
+                    MathHelper.Lerp(-10, 10, (float)random.NextDouble()) // Y between -10 and 10
+                    );
+                particle.Acceleration = new Vector2(0, 0);
+                particle.Color = Color.Gold;
+                particle.Scale = 0.5f;
+                particle.Life = 1f;
+            };
+            // Set the UpdateParticle method
+            sparkleSystem.UpdateSparkle = (float deltaT, ref Particle particle) =>
+            {
+                particle.Velocity += deltaT * particle.Acceleration;
+                particle.Position += deltaT * particle.Velocity;
+                particle.Scale -= deltaT;
+                particle.Life -= deltaT;
+            };
+
 
             player.LoadContent();
             cake.LoadContent(Content);
@@ -203,6 +229,7 @@ namespace MonoGameWindowsStarter
             }
             // TODO: Add your update logic here
             particleSystem.Update(gameTime);
+            sparkleSystem.Update(gameTime);
             player.Update(gameTime);
             cake.Update(gameTime);
             cookie.Update(gameTime);
@@ -293,7 +320,7 @@ namespace MonoGameWindowsStarter
             {
                 midScreen.X = 1080;
             }
-
+            cloudRect.X = (int)midScreen.X;
             spriteBatch.Draw(grass, grassRect, Color.White);    
             spriteBatch.DrawString(font, "Score: " + score, midScreen, Color.Black);
             if (player.position.X <= buttonRect.X + buttonRect.Width && player.position.Y < 340)
@@ -321,12 +348,14 @@ namespace MonoGameWindowsStarter
             broccoli.Draw(spriteBatch);
             
             spriteBatch.End();
-           
+
+            sparkleSystem.Draw();
             if (hasPressedButton)
             {
+                sparkleSystem.UpdateSparkle = null;
+                sparkleSystem.SpawnPerFrame = 0;
                 particleSystem.Draw();
             }
-            
             base.Draw(gameTime);
         }
 
