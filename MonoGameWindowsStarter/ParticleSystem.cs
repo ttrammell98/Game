@@ -74,7 +74,7 @@ namespace MonoGameWindowsStarter
                 particles[nextIndex].Position = Emitter;
                 particles[nextIndex].Velocity = 100 * new Vector2((float)random.NextDouble(), (float)random.NextDouble());
                 particles[nextIndex].Acceleration = 0.1f * new Vector2((float)random.NextDouble(), (float)random.NextDouble());
-                particles[nextIndex].Color = Color.Red;
+                particles[nextIndex].Color = Color.Green;
                 particles[nextIndex].Scale = 1f;
                 particles[nextIndex].Life = 3.0f;
                 // Advance the index 
@@ -84,7 +84,6 @@ namespace MonoGameWindowsStarter
 
             //Part 2: Update Particles
             float deltaT = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
             for (int i = 0; i < particles.Length; i++)
             {
                 // Skip any "dead" particles
@@ -94,7 +93,6 @@ namespace MonoGameWindowsStarter
                 particles[i].Velocity += deltaT * particles[i].Acceleration;
                 particles[i].Position += deltaT * particles[i].Velocity;
                 particles[i].Life -= deltaT;
-
             }
 
         }
