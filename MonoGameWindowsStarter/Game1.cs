@@ -20,6 +20,8 @@ namespace MonoGameWindowsStarter
         KeyboardState keyboardState;
         Texture2D grass;
         Rectangle grassRect;
+        Texture2D cloud;
+        Rectangle cloudRect;
         Random random = new Random();
         int score = 0;
         SpriteFont font;
@@ -80,6 +82,11 @@ namespace MonoGameWindowsStarter
             buttonRect.X = 0;
             buttonRect.Y = (int)block1.Bounds.Y - 15;
 
+            cloudRect.Width = 90;
+            cloudRect.Height = 75;
+            cloudRect.X = (int)player.position.X;
+            cloudRect.Y = 15;
+
             block1.Initialize();
             block2.Initialize();
             block3.Initialize();
@@ -110,15 +117,38 @@ namespace MonoGameWindowsStarter
             grass = Content.Load<Texture2D>("grass");
             font = Content.Load<SpriteFont>("score");
             button = Content.Load<Texture2D>("button");
+            cloud = Content.Load<Texture2D>("Cloud");
             block1.LoadContent(Content);
             block2.LoadContent(Content);
             block3.LoadContent(Content);
 
             // TODO: use this.Content to load your game content here
             particleTexture = Content.Load<Texture2D>("Particle");
-            particleSystem = new ParticleSystem(this.GraphicsDevice, 1000, particleTexture);
-            particleSystem.Emitter = new Vector2(0, 0);
-            particleSystem.SpawnPerFrame = 4;
+            particleSystem = new ParticleSystem(this.GraphicsDevice, 500, particleTexture);
+            //particleSystem.Emitter = new Vector2(360, 0);
+            particleSystem.SpawnPerFrame = 1;
+            // Set the SpawnParticle method
+            particleSystem.SpawnParticle = (ref Particle particle) =>
+            {
+                particle.Position = new Vector2(360, 15);
+                particle.Velocity = new Vector2(
+                    MathHelper.Lerp(-360, 360, (float)random.NextDouble()), 
+                    MathHelper.Lerp(0, 300, (float)random.NextDouble()) // Y between 0 and 100
+                    );
+                particle.Acceleration = 0.1f * new Vector2(0, (float)-random.NextDouble());
+                particle.Color = Color.Aqua;
+                particle.Scale = 1f;
+                particle.Life = 2.0f;
+            };
+
+            // Set the UpdateParticle method
+            particleSystem.UpdateParticle = (float deltaT, ref Particle particle) =>
+            {
+                particle.Velocity += deltaT * particle.Acceleration;
+                particle.Position += deltaT * particle.Velocity;
+                particle.Scale -= deltaT;
+                particle.Life -= deltaT;
+            };
 
             player.LoadContent();
             cake.LoadContent(Content);
@@ -277,7 +307,8 @@ namespace MonoGameWindowsStarter
             }
             //MouseState mouse = Mouse.GetState();
             //Console.WriteLine("X: " + mouse.X + "Y: " + mouse.Y);
-            spriteBatch.Draw(button, buttonRect, Color.White);            
+            spriteBatch.Draw(button, buttonRect, Color.White);
+            spriteBatch.Draw(cloud, cloudRect, Color.Gray);
             block1.Draw(spriteBatch);
             block2.Draw(spriteBatch);
             block3.Draw(spriteBatch);
@@ -290,8 +321,12 @@ namespace MonoGameWindowsStarter
             broccoli.Draw(spriteBatch);
             
             spriteBatch.End();
-
-            particleSystem.Draw();
+           
+            if (hasPressedButton)
+            {
+                particleSystem.Draw();
+            }
+            
             base.Draw(gameTime);
         }
 
