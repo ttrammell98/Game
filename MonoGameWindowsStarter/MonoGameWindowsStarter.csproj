@@ -49,6 +49,7 @@
     <Compile Include="Carrot.cs" />
     <Compile Include="Cookie.cs" />
     <Compile Include="Donut.cs" />
+    <Compile Include="FireSystem.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="IBoundable.cs" />
     <Compile Include="Particle.cs" />

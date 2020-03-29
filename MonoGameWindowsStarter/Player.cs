@@ -163,9 +163,9 @@ namespace MonoGameWindowsStarter
                 //position.X = game.GetWidth() - FRAME_WIDTH;
                 position.X = 0;
             }
-            if (position.X + FRAME_WIDTH >= 1440)
+            if (position.X + FRAME_WIDTH >= 1390)
             {
-                position.X = 1440 - FRAME_WIDTH;
+                position.X = 1390 - FRAME_WIDTH;
             }
 
             //Ensures the player falls off the blocks 

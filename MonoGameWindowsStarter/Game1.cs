@@ -45,6 +45,10 @@ namespace MonoGameWindowsStarter
         Texture2D particleTexture;
         SparkleSystem sparkleSystem;
         Texture2D sparkleTexture;
+        Texture2D wood;
+        Rectangle woodRect;
+        FireSystem fireSystem;
+        Texture2D fireTexture;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -89,6 +93,11 @@ namespace MonoGameWindowsStarter
             cloudRect.X = (int)player.position.X;
             cloudRect.Y = 15;
 
+            woodRect.Width = 50;
+            woodRect.Height = 50;
+            woodRect.X = worldWidth - woodRect.Width;
+            woodRect.Y = grassRect.Y - woodRect.Height + 5;
+
             block1.Initialize();
             block2.Initialize();
             block3.Initialize();
@@ -120,6 +129,7 @@ namespace MonoGameWindowsStarter
             font = Content.Load<SpriteFont>("score");
             button = Content.Load<Texture2D>("button");
             cloud = Content.Load<Texture2D>("Cloud");
+            wood = Content.Load<Texture2D>("wood");
             block1.LoadContent(Content);
             block2.LoadContent(Content);
             block3.LoadContent(Content);
@@ -168,6 +178,34 @@ namespace MonoGameWindowsStarter
             };
             // Set the UpdateParticle method
             sparkleSystem.UpdateSparkle = (float deltaT, ref Particle particle) =>
+            {
+                particle.Velocity += deltaT * particle.Acceleration;
+                particle.Position += deltaT * particle.Velocity;
+                particle.Scale -= deltaT;
+                particle.Life -= deltaT;
+            };
+
+
+            //FIRE
+            fireTexture = Content.Load<Texture2D>("particle");
+            fireSystem = new FireSystem(this.GraphicsDevice, 500, fireTexture);
+            fireSystem.Emitter = new Vector2(75, 75);
+            fireSystem.SpawnPerFrame = 4;
+            fireSystem.SpawnFire = (ref Particle particle) =>
+            {
+                particle.Position = new Vector2(690, 400);
+                particle.Velocity = new Vector2(
+                    MathHelper.Lerp(-25, 25, (float)random.NextDouble()), // X between -50 and 50
+                    MathHelper.Lerp(-95, 0, (float)random.NextDouble()) // Y between 0 and 100
+                    );
+                particle.Acceleration = 0.1f * new Vector2(0, (float)-random.NextDouble());
+                particle.Color = Color.MonoGameOrange;
+                particle.Scale = 1.0f;
+                particle.Life = 0.5f;
+            };
+
+            // Set the UpdateParticle method
+            fireSystem.UpdateFire = (float deltaT, ref Particle particle) =>
             {
                 particle.Velocity += deltaT * particle.Acceleration;
                 particle.Position += deltaT * particle.Velocity;
@@ -230,6 +268,7 @@ namespace MonoGameWindowsStarter
             // TODO: Add your update logic here
             particleSystem.Update(gameTime);
             sparkleSystem.Update(gameTime);
+            fireSystem.Update(gameTime);
             player.Update(gameTime);
             cake.Update(gameTime);
             cookie.Update(gameTime);
@@ -336,6 +375,7 @@ namespace MonoGameWindowsStarter
             //Console.WriteLine("X: " + mouse.X + "Y: " + mouse.Y);
             spriteBatch.Draw(button, buttonRect, Color.White);
             spriteBatch.Draw(cloud, cloudRect, Color.Gray);
+            spriteBatch.Draw(wood, woodRect, Color.White);
             block1.Draw(spriteBatch);
             block2.Draw(spriteBatch);
             block3.Draw(spriteBatch);
@@ -348,8 +388,16 @@ namespace MonoGameWindowsStarter
             broccoli.Draw(spriteBatch);
             
             spriteBatch.End();
+            
+            if (player.position.X <= 360)
+            {
+                sparkleSystem.Draw();
+            }
+            if (player.position.X >= (worldWidth - (0.5 * graphics.PreferredBackBufferWidth)) && !hasPressedButton)
+            {
+                fireSystem.Draw();
+            }
 
-            sparkleSystem.Draw();
             if (hasPressedButton)
             {
                 sparkleSystem.UpdateSparkle = null;
