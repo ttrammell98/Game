@@ -15,11 +15,6 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ../../Images/message1.txt
-/importer:MessageImporter
-/processor:MessageProcessor
-/build:../../Images/message1.txt;message1.txt
-
 #begin Bite.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -139,6 +134,11 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:grass.png
+
+#begin message1.txt
+/importer:MessageImporter
+/processor:MessageProcessor
+/build:message1.txt
 
 #begin Particle.png
 /importer:TextureImporter

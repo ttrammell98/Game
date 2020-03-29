@@ -136,7 +136,7 @@ namespace MonoGameWindowsStarter
 
             // TODO: use this.Content to load your game content here
             particleTexture = Content.Load<Texture2D>("Particle");
-            particleSystem = new ParticleSystem(this.GraphicsDevice, 1000, particleTexture);
+            particleSystem = new ParticleSystem(this.GraphicsDevice, 2000, particleTexture);
             //particleSystem.Emitter = new Vector2(360, 0);
             particleSystem.SpawnPerFrame = 1;
             // Set the SpawnParticle method
@@ -144,13 +144,13 @@ namespace MonoGameWindowsStarter
             {
                 particle.Position = new Vector2(390, 40);
                 particle.Velocity = new Vector2(
-                    MathHelper.Lerp(-360, 360, (float)random.NextDouble()), 
-                    MathHelper.Lerp(0, 300, (float)random.NextDouble()) // Y between 0 and 100
+                    MathHelper.Lerp(-200, 200, (float)random.NextDouble()), 
+                    MathHelper.Lerp(0, 415, (float)random.NextDouble())
                     );
-                particle.Acceleration = 0.1f * new Vector2(0, (float)-random.NextDouble());
+                particle.Acceleration = new Vector2(0,0);
                 particle.Color = Color.Aqua;
                 particle.Scale = 1f;
-                particle.Life = 2.0f;
+                particle.Life = 1.75f;
             };
             particleSystem.UpdateParticle = (float deltaT, ref Particle particle) =>
             {
@@ -371,8 +371,6 @@ namespace MonoGameWindowsStarter
             {
                 spriteBatch.DrawString(font, message.text, new Vector2(0, 0), Color.Gold);
             }
-            //MouseState mouse = Mouse.GetState();
-            //Console.WriteLine("X: " + mouse.X + "Y: " + mouse.Y);
             spriteBatch.Draw(button, buttonRect, Color.White);
             spriteBatch.Draw(cloud, cloudRect, Color.Gray);
             spriteBatch.Draw(wood, woodRect, Color.White);
@@ -389,7 +387,7 @@ namespace MonoGameWindowsStarter
             
             spriteBatch.End();
             
-            if (player.position.X <= 360)
+            if (player.position.X <= 360 && !hasPressedButton)
             {
                 sparkleSystem.Draw();
             }
@@ -400,8 +398,6 @@ namespace MonoGameWindowsStarter
 
             if (hasPressedButton)
             {
-                sparkleSystem.UpdateSparkle = null;
-                sparkleSystem.SpawnPerFrame = 0;
                 particleSystem.Draw();
             }
             base.Draw(gameTime);
@@ -440,6 +436,7 @@ namespace MonoGameWindowsStarter
             cake.Bounds.X = RandomizeItem();
             cookie.Bounds.X = RandomizeItem();
             carrot.Bounds.X = RandomizeItem();
+            
         }
 
         private int RandomizeItem()
